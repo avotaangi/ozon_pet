@@ -1,4 +1,4 @@
-import { ArrowUp, ChevronDown, MessageCircle, PawPrint, Search, Send, ShieldCheck, TrendingUp, X } from 'lucide-react'
+import { ArrowUp, ChevronDown, Funnel, MessageCircle, PawPrint, Search, Send, ShieldCheck, TrendingUp, X } from 'lucide-react'
 import { useState } from 'react'
 
 const topicCards = [
@@ -74,6 +74,7 @@ const communities = ['Все темы', 'Питание', 'Ветпомощь', 
 
 export function PetBlogPage() {
   const [isCreateTopicOpen, setIsCreateTopicOpen] = useState(false)
+  const [mobileSectionsOpen, setMobileSectionsOpen] = useState(false)
   const [topicDraft, setTopicDraft] = useState({
     title: '',
     description: '',
@@ -92,7 +93,20 @@ export function PetBlogPage() {
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[260px_1fr_300px]">
-        <aside className="rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
+        <div className="xl:hidden">
+          <button
+            type="button"
+            onClick={() => setMobileSectionsOpen((value) => !value)}
+            className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-[0_12px_38px_rgba(15,23,42,0.06)]"
+          >
+            <Funnel className="size-4 text-ozon-blue" />
+            Фильтр
+          </button>
+        </div>
+
+        <aside
+          className={`${mobileSectionsOpen ? 'block' : 'hidden'} rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)] xl:block`}
+        >
           <div className="text-lg font-semibold text-slate-950">Разделы</div>
           <div className="mt-4 space-y-2">
             {communities.map((item, index) => (

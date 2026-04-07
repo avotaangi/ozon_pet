@@ -1,4 +1,4 @@
-import { CalendarDays, Clock3, MapPin, Package, Star, Stethoscope } from 'lucide-react'
+import { ArrowLeft, CalendarDays, Clock3, Star } from 'lucide-react'
 import { useState } from 'react'
 import { Navigate, NavLink, useParams } from 'react-router-dom'
 import { pets, services } from '../data/marketplace'
@@ -146,6 +146,8 @@ export function ServiceDetailPage() {
   const item = services.find((entry) => entry.id === itemId)
   const [selectedDate, setSelectedDate] = useState(defaultDates[0])
   const [selectedTime, setSelectedTime] = useState(defaultTimes[0])
+  const [selectedPetId, setSelectedPetId] = useState(pets[0]?.id ?? '')
+  const [isInSubscription, setIsInSubscription] = useState(false)
 
   if (!item) {
     return <Navigate to="/services" replace />
@@ -153,19 +155,20 @@ export function ServiceDetailPage() {
 
   const specialists = categorySpecialists[item.category]
   const photo = servicePhotos[item.id] ?? servicePhotos['srv-1']
+  const leadSpecialist = specialists[0]
 
   return (
     <div className="space-y-6">
-      <NavLink
-        to="/services"
-        className="inline-flex rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-[0_12px_38px_rgba(15,23,42,0.06)]"
-      >
-        Назад к услугам
-      </NavLink>
-
       <section className="rounded-[32px] bg-white p-7 shadow-[0_16px_60px_rgba(15,23,42,0.06)]">
         <div className="grid gap-6 xl:grid-cols-[0.92fr_1.08fr]">
-          <div className="overflow-hidden rounded-[28px] bg-slate-100">
+          <div className="relative overflow-hidden rounded-[28px] bg-slate-100">
+            <NavLink
+              to="/services"
+              className="absolute left-4 top-4 z-10 inline-flex items-center justify-center rounded-full bg-white/95 p-3 text-slate-700 shadow-[0_12px_24px_rgba(15,23,42,0.12)] backdrop-blur"
+              aria-label="Назад к услугам"
+            >
+              <ArrowLeft className="size-5" />
+            </NavLink>
             <img src={photo} alt={item.title} className="h-full min-h-[360px] w-full object-cover" />
           </div>
 
@@ -228,7 +231,10 @@ export function ServiceDetailPage() {
                   <button
                     key={pet.id}
                     type="button"
-                    className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.06)]"
+                    onClick={() => setSelectedPetId(pet.id)}
+                    className={`rounded-full px-4 py-2 text-sm font-semibold shadow-[0_10px_24px_rgba(15,23,42,0.06)] ${
+                      selectedPetId === pet.id ? 'bg-ozon-magenta text-white' : 'bg-ozon-magenta/10 text-ozon-magenta'
+                    }`}
                   >
                     Для {pet.name}
                   </button>
@@ -236,7 +242,7 @@ export function ServiceDetailPage() {
               </div>
             </div>
 
-            <div className="mt-5 flex flex-wrap gap-3">
+            <div className="mt-5 space-y-3">
               <button
                 type="button"
                 className="inline-flex items-center gap-2 rounded-full bg-ozon-blue px-5 py-3 text-sm font-semibold text-white"
@@ -244,88 +250,77 @@ export function ServiceDetailPage() {
                 <Clock3 className="size-4" />
                 Оформить на {selectedDate}, {selectedTime}
               </button>
-              <button
-                type="button"
-                className="inline-flex items-center gap-2 rounded-full bg-ozon-magenta px-5 py-3 text-sm font-semibold text-white"
-              >
-                <Package className="size-4" />
-                Добавить в pet-подписку
-              </button>
-              <button
-                type="button"
-                className="inline-flex items-center rounded-full bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-700"
-              >
-                Написать специалисту
-              </button>
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setIsInSubscription((current) => !current)}
+                  className={`inline-flex shrink-0 items-center justify-center rounded-full px-5 py-3 text-center text-sm font-semibold leading-5 whitespace-normal break-words ${
+                    isInSubscription ? 'bg-ozon-magenta text-white' : 'bg-ozon-magenta/10 text-ozon-magenta'
+                  }`}
+                >
+                  Pet-подписка
+                </button>
+                <button
+                  type="button"
+                  className="inline-flex shrink-0 items-center justify-center rounded-full bg-slate-100 px-5 py-3 text-center text-sm font-semibold leading-5 text-slate-700 whitespace-normal break-words"
+                >
+                  Написать специалисту
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="rounded-[28px] bg-white p-6 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
-        <div className="flex items-center gap-2 text-2xl font-semibold text-slate-950">
-          <Stethoscope className="size-5 text-ozon-magenta" />
-          Специалисты по услуге
-        </div>
-        <div className="mt-5 grid gap-4 xl:grid-cols-2">
-          {specialists.map((specialist) => (
-            <article key={specialist.id} className="rounded-[24px] bg-slate-50 p-5">
-              <div className="flex items-start gap-4">
-                <img src={specialist.photo} alt={specialist.name} className="size-18 rounded-full object-cover" />
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div>
-                      <div className="text-xl font-semibold text-slate-950">{specialist.name}</div>
-                      <div className="mt-1 text-sm text-slate-500">{specialist.role}</div>
-                    </div>
-                    <div className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-amber-600">
-                      <Star className="size-4 fill-current" />
-                      {specialist.rating}
-                    </div>
-                  </div>
-
-                  <div className="mt-4 grid gap-3 md:grid-cols-2">
-                    <div className="rounded-[18px] bg-white px-4 py-3 text-sm text-slate-600">
-                      <span className="font-semibold text-slate-900">Где работает:</span> {specialist.worksAt}
-                    </div>
-                    <div className="rounded-[18px] bg-white px-4 py-3 text-sm text-slate-600">
-                      <span className="font-semibold text-slate-900">Опыт:</span> {specialist.experience}
-                    </div>
-                  </div>
-
-                  <div className="mt-3 flex items-center gap-2 text-sm text-slate-600">
-                    <MapPin className="size-4 text-ozon-blue" />
-                    {specialist.location}
-                  </div>
-
-                  <div className="mt-4 space-y-3">
-                    {specialist.reviews.map((review) => (
-                      <div key={review} className="rounded-[18px] bg-white px-4 py-3 text-sm leading-7 text-slate-600">
-                        {review}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="rounded-[28px] bg-white p-6 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
-        <div className="text-2xl font-semibold text-slate-950">Что есть в карточке</div>
-        <div className="mt-4 grid gap-3 md:grid-cols-2">
-          {[
-            'Описание услуги и свободные слоты по дате и времени',
-            'Выбор любимого питомца для этой услуги',
-            'Добавление услуги в pet-подписку',
-          ].map((point) => (
-            <div key={point} className="rounded-[18px] bg-slate-50 px-4 py-3 text-sm leading-7 text-slate-600">
-              {point}
+      <section className="grid gap-4 xl:grid-cols-2">
+        <div className="rounded-[28px] bg-white p-6 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
+          <div className="text-2xl font-semibold text-slate-950">Характеристика специалиста</div>
+          <div className="mt-4 flex items-center gap-4 rounded-[22px] bg-slate-50 p-4">
+            <img src={leadSpecialist.photo} alt={leadSpecialist.name} className="size-16 rounded-full object-cover" />
+            <div className="min-w-0">
+              <div className="text-lg font-semibold text-slate-950">{leadSpecialist.name}</div>
+              <div className="mt-1 text-sm text-slate-500">{leadSpecialist.role}</div>
             </div>
-          ))}
+          </div>
+          <div className="mt-4 space-y-3">
+            <div className="rounded-[18px] bg-slate-50 px-4 py-3 text-sm text-slate-600">
+              <span className="font-semibold text-slate-900">Где работает:</span> {leadSpecialist.worksAt}
+            </div>
+            <div className="rounded-[18px] bg-slate-50 px-4 py-3 text-sm text-slate-600">
+              <span className="font-semibold text-slate-900">Стаж работы:</span> {leadSpecialist.experience}
+            </div>
+            <div className="rounded-[18px] bg-slate-50 px-4 py-3 text-sm text-slate-600">
+              <span className="font-semibold text-slate-900">Локация:</span> {leadSpecialist.location}
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-[28px] bg-white p-6 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
+          <div className="text-2xl font-semibold text-slate-950">Отзывы</div>
+          <div className="mt-4 space-y-3">
+            {leadSpecialist.reviews.map((review, index) => (
+              <div key={review} className="rounded-[18px] bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                <div className="flex items-center gap-2 text-amber-600">
+                  <Star className="size-4 fill-current" />
+                  <span className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                    {index === 0 ? '5.0' : '4.9'}
+                  </span>
+                </div>
+                <div className="mt-2 leading-7">{review}</div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-5 flex justify-center">
+            <button
+              type="button"
+              className="inline-flex items-center justify-center rounded-full bg-ozon-magenta px-5 py-3 text-sm font-semibold text-white"
+            >
+              Оставить отзыв
+            </button>
+          </div>
         </div>
       </section>
+
     </div>
   )
 }
