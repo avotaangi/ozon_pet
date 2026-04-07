@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   productItems,
+  servicePackages,
   services,
   sidebarCategories,
 } from '../../data/marketplace'
@@ -16,14 +17,13 @@ export function MarketplaceHomeContent() {
   const [activeServiceCategory, setActiveServiceCategory] = useState<
     'all' | 'groomers' | 'sitters' | 'veterinarians' | 'walking' | 'boarding' | 'training'
   >('all')
-  const [serviceMode, setServiceMode] = useState<'all' | 'instant'>('all')
-  const [instantSpecialty, setInstantSpecialty] = useState('Ситтер')
+  const [serviceOfferMode, setServiceOfferMode] = useState<'single' | 'package'>('single')
   const navigate = useNavigate()
   const capabilityCards = [
     {
-      title: 'Услуги',
-      text: 'Раздел услуг для животных',
-      to: '/services',
+      title: 'По клику',
+      text: 'Срочные услуги здесь и сейчас внутри Ozon Pet',
+      to: '/pet-click',
       image:
         'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=800&q=80',
     },
@@ -62,13 +62,7 @@ export function MarketplaceHomeContent() {
     activeServiceCategory === 'all'
       ? services
       : services.filter((service) => service.category === activeServiceCategory)
-  ).filter((service) =>
-    serviceMode === 'instant'
-      ? ['walking', 'sitters', 'veterinarians'].includes(service.category) &&
-        (service.eta.includes('сегодня') || service.eta.includes('рядом') || service.eta.includes('утром') || service.eta.includes('вечером'))
-      : true,
   )
-  const instantSpecialties = ['Ситтер', 'Выгул собак', 'Передержка на день', 'Сопровождение к врачу', 'Кормление и уход']
 
   return (
     <div className="space-y-6">
@@ -266,84 +260,28 @@ export function MarketplaceHomeContent() {
           </aside>
 
           <div className="space-y-4">
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => setServiceMode('all')}
-                className={`rounded-full px-4 py-2 text-sm font-semibold ${
-                  serviceMode === 'all' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'
-                }`}
-              >
-                Все услуги
-              </button>
-              <button
-                type="button"
-                onClick={() => setServiceMode('instant')}
-                className={`rounded-full px-4 py-2 text-sm font-semibold ${
-                  serviceMode === 'instant' ? 'bg-ozon-magenta text-white' : 'bg-ozon-magenta/10 text-ozon-magenta'
-                }`}
-              >
-                По клику
-              </button>
-            </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setServiceOfferMode('single')}
+              className={`rounded-full px-4 py-2 text-sm font-semibold ${
+                serviceOfferMode === 'single' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'
+              }`}
+            >
+              Одна услуга
+            </button>
+            <button
+              type="button"
+              onClick={() => setServiceOfferMode('package')}
+              className={`rounded-full px-4 py-2 text-sm font-semibold ${
+                serviceOfferMode === 'package' ? 'bg-ozon-blue text-white' : 'bg-ozon-blue/10 text-ozon-blue'
+              }`}
+            >
+              Пакет услуг
+            </button>
+          </div>
 
-            {serviceMode === 'instant' ? (
-              <div className="rounded-[24px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
-                <div>
-                  <div className="text-sm font-semibold uppercase tracking-[0.16em] text-ozon-magenta">Быстрый сценарий</div>
-                  <div className="mt-2 text-xl font-semibold text-slate-950">По клику</div>
-                  <div className="mt-2 max-w-2xl text-sm leading-7 text-slate-600">
-                    Сервис для ситуаций здесь и сейчас: владелец выбирает специализацию ситтера, видит ближайшую карту и запускает поиск специалиста почти как в такси.
-                  </div>
-                </div>
-
-                <div className="mt-5 grid gap-4 xl:grid-cols-[0.92fr_1.08fr]">
-                  <div className="rounded-[22px] bg-slate-50 p-4">
-                    <div className="text-sm font-semibold text-slate-700">Кого ищем прямо сейчас</div>
-                    <div className="mt-3 space-y-2">
-                      {instantSpecialties.map((item) => (
-                        <button
-                          key={item}
-                          type="button"
-                          onClick={() => setInstantSpecialty(item)}
-                          className={`w-full rounded-[16px] px-4 py-3 text-left text-sm font-medium transition ${
-                            instantSpecialty === item
-                              ? 'bg-ozon-blue text-white'
-                              : 'bg-white text-slate-600'
-                          }`}
-                        >
-                          {item}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="rounded-[22px] bg-slate-50 p-4">
-                    <div className="text-sm font-semibold text-slate-700">Карта доступных специалистов</div>
-                    <div className="mt-3 overflow-hidden rounded-[18px] border border-slate-200 bg-white">
-                      <div className="relative h-[220px] bg-[linear-gradient(180deg,#f8fbff_0%,#edf4ff_100%)]">
-                        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,91,255,0.06)_1px,transparent_1px),linear-gradient(180deg,rgba(0,91,255,0.06)_1px,transparent_1px)] bg-[size:34px_34px]" />
-                        <div className="absolute left-[18%] top-[22%] size-4 rounded-full bg-ozon-magenta shadow-[0_0_0_8px_rgba(241,17,126,0.12)]" />
-                        <div className="absolute right-[24%] top-[34%] size-4 rounded-full bg-ozon-blue shadow-[0_0_0_8px_rgba(0,91,255,0.12)]" />
-                        <div className="absolute left-[42%] bottom-[24%] size-4 rounded-full bg-emerald-500 shadow-[0_0_0_8px_rgba(16,185,129,0.12)]" />
-                        <div className="absolute right-[16%] bottom-[20%] size-4 rounded-full bg-amber-500 shadow-[0_0_0_8px_rgba(245,158,11,0.14)]" />
-                        <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-full bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.08)]">
-                          Сейчас ищем:
-                          <span className="text-ozon-blue">{instantSpecialty}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      className="mt-4 w-full rounded-[18px] bg-ozon-magenta px-4 py-3 text-sm font-semibold text-white"
-                    >
-                      Искать {instantSpecialty}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ) : null}
-
+          {serviceOfferMode === 'single' ? (
           <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
             {visibleServices.map((item) => (
               <article key={item.id} className="flex h-full flex-col rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
@@ -368,6 +306,28 @@ export function MarketplaceHomeContent() {
               </article>
             ))}
           </div>
+          ) : (
+            <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+              {servicePackages.map((item) => (
+                <article key={item.id} className="flex h-full flex-col rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
+                  <div className="flex h-38 items-center justify-center rounded-[20px] bg-[#d9d9d9] text-xl text-slate-500">Пакет</div>
+                  <div className="mt-4 text-xl font-semibold text-slate-900">{item.title}</div>
+                  <div className="mt-2 text-sm leading-7 text-slate-600">{item.subtitle}</div>
+                  <div className="mt-3 rounded-[18px] bg-slate-50 px-4 py-3 text-sm text-slate-600">{item.benefit}</div>
+                  <div className="mt-auto flex items-center justify-between gap-3 pt-5">
+                    <span className="leading-none font-semibold text-ozon-dark">{item.price}</span>
+                    <button
+                      type="button"
+                      onClick={() => navigate(`/booking/package/${item.id}`)}
+                      className="shrink-0 rounded-full bg-ozon-blue px-3 py-1.5 text-xs font-semibold text-white"
+                    >
+                      Оформить
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
           </div>
         </section>
         </>

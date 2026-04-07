@@ -8,6 +8,7 @@ import { MarketplaceHomePage } from './pages/MarketplaceHomePage'
 import { PetBlogPage } from './pages/PetBlogPage'
 import { PetIdPage } from './pages/PetIdPage'
 import { PetDobroPage } from './pages/PetDobroPage'
+import { PetClickPage } from './pages/PetClickPage'
 import { PetProPage } from './pages/PetProPage'
 import { PetSubscriptionPage } from './pages/PetSubscriptionPage'
 import { ServicesPage } from './pages/ServicesPage'
@@ -53,6 +54,14 @@ function App() {
         element={
           <AppShell>
             <LoginPage />
+          </AppShell>
+        }
+      />
+      <Route
+        path="/pet-click"
+        element={
+          <AppShell>
+            <PetClickPage />
           </AppShell>
         }
       />

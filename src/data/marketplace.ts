@@ -280,7 +280,7 @@ export const productItems: Product[] = [
     price: '1 290 ₽',
     reminder: 'Раз в 45 дней',
     aiReason: 'Рекомендуется для активных прогулок и снижения тревоги.',
-    preferenceBadge: { icon: '✓', label: 'Подходит', tone: 'positive' },
+    preferenceBadge: { icon: '🐟', label: 'Рыба', tone: 'positive' },
   },
   {
     id: 'food-3',
@@ -290,7 +290,7 @@ export const productItems: Product[] = [
     badge: 'Быстрая доставка',
     reminder: 'Напомнить через 60 дней',
     aiReason: 'Подходит как домашний базовый набор, но состав нужно проверить.',
-    preferenceBadge: { icon: '⚠', label: 'Проверить состав', tone: 'danger' },
+    preferenceBadge: { icon: '🥛', label: 'Есть молоко', tone: 'danger' },
   },
   {
     id: 'food-4',
@@ -300,7 +300,7 @@ export const productItems: Product[] = [
     badge: '1 клик',
     reminder: 'Завтра, 09:00',
     aiReason: 'Это предыдущий успешный заказ без негативных реакций.',
-    preferenceBadge: { icon: '✓', label: 'Любимый рацион', tone: 'positive' },
+    preferenceBadge: { icon: '🐟', label: 'Рыба', tone: 'positive' },
   },
   {
     id: 'food-5',
@@ -310,7 +310,7 @@ export const productItems: Product[] = [
     badge: 'Подходит Рокси',
     reminder: 'Раз в 60 дней',
     aiReason: 'Подходит для чувствительной кожи и регулярного ухода после прогулок.',
-    preferenceBadge: { icon: '✓', label: 'Подходит', tone: 'positive' },
+    preferenceBadge: { icon: '🦃', label: 'Без курицы', tone: 'positive' },
   },
   {
     id: 'food-6',
@@ -320,7 +320,7 @@ export const productItems: Product[] = [
     badge: 'Подходит Марсу',
     reminder: 'Без напоминания',
     aiReason: 'Рекомендуется питомцам со склонностью к нагрузке на суставы и спину.',
-    preferenceBadge: { icon: '✓', label: 'Полезно для суставов', tone: 'positive' },
+    preferenceBadge: { icon: '🐑', label: 'Ягнёнок', tone: 'positive' },
   },
   {
     id: 'food-7',
@@ -330,7 +330,7 @@ export const productItems: Product[] = [
     badge: 'Подходит Персику',
     reminder: 'Раз в 30 дней',
     aiReason: 'Поддерживает ЖКТ и снижает дискомфорт при сезонной линьке.',
-    preferenceBadge: { icon: '✓', label: 'Проверено Pet ID', tone: 'positive' },
+    preferenceBadge: { icon: '🥛', label: 'Без молока', tone: 'positive' },
   },
   {
     id: 'food-8',
@@ -340,7 +340,7 @@ export const productItems: Product[] = [
     badge: 'Часто покупают',
     reminder: 'Раз в 21 день',
     aiReason: 'Стабильный расходник для регулярного автопополнения без стресса.',
-    preferenceBadge: { icon: '✓', label: 'Подходит', tone: 'positive' },
+    preferenceBadge: { icon: '🌾', label: 'Без глютена', tone: 'positive' },
   },
   {
     id: 'food-9',
@@ -360,7 +360,7 @@ export const productItems: Product[] = [
     badge: 'Регулярный уход',
     reminder: 'Раз в 25 дней',
     aiReason: 'Полезно как рутинный уход между визитами к врачу и грумеру.',
-    preferenceBadge: { icon: '✓', label: 'Подходит', tone: 'positive' },
+    preferenceBadge: { icon: '🥜', label: 'Есть арахис', tone: 'danger' },
   },
   {
     id: 'food-11',
@@ -370,7 +370,7 @@ export const productItems: Product[] = [
     badge: 'Подходит Персику',
     reminder: 'Каждые 24 дня',
     aiReason: 'Снижает нагрузку на ЖКТ и поддерживает стабильный рацион без резких смен.',
-    preferenceBadge: { icon: '✓', label: 'Проверено Pet ID', tone: 'positive' },
+    preferenceBadge: { icon: '🐟', label: 'Рыба', tone: 'positive' },
   },
   {
     id: 'food-12',
@@ -380,7 +380,7 @@ export const productItems: Product[] = [
     badge: 'Совет врача',
     reminder: 'Раз в 60 дней',
     aiReason: 'Добавка рекомендована после заметок специалиста о коже и суставах.',
-    preferenceBadge: { icon: '✓', label: 'Подходит', tone: 'positive' },
+    preferenceBadge: { icon: '🐟', label: 'Рыба', tone: 'positive' },
   },
   {
     id: 'food-13',
@@ -390,7 +390,7 @@ export const productItems: Product[] = [
     badge: 'Для активных прогулок',
     reminder: 'Без напоминания',
     aiReason: 'Подходит для частых прогулок и снижает нагрузку по сравнению с жёстким ошейником.',
-    preferenceBadge: { icon: '✓', label: 'Подходит', tone: 'positive' },
+    preferenceBadge: { icon: '🍃', label: 'Мало калорий', tone: 'positive' },
   },
   {
     id: 'food-14',
@@ -400,7 +400,7 @@ export const productItems: Product[] = [
     badge: 'Перед визитом',
     reminder: 'Раз в 40 дней',
     aiReason: 'Помогает снизить тревожность перед грумингом, передержкой или поездкой.',
-    preferenceBadge: { icon: '⚠', label: 'Проверить состав', tone: 'danger' },
+    preferenceBadge: { icon: '🌾', label: 'Есть глютен', tone: 'danger' },
   },
   {
     id: 'food-15',
@@ -410,7 +410,7 @@ export const productItems: Product[] = [
     badge: 'Для кошек',
     reminder: 'Фильтр раз в 45 дней',
     aiReason: 'Подходит домашним кошкам, которым важно чаще пить воду при сухом рационе.',
-    preferenceBadge: { icon: '✓', label: 'Подходит', tone: 'positive' },
+    preferenceBadge: { icon: '🥛', label: 'Без молока', tone: 'positive' },
   },
   {
     id: 'food-16',
@@ -420,7 +420,7 @@ export const productItems: Product[] = [
     badge: 'Расходник',
     reminder: 'Раз в 18 дней',
     aiReason: 'Регулярный расходник для дома, поездок и ухода после процедур.',
-    preferenceBadge: { icon: '✓', label: 'Подходит', tone: 'positive' },
+    preferenceBadge: { icon: '🦃', label: 'Индейка', tone: 'positive' },
   },
 ]
 
@@ -451,7 +451,7 @@ export const featuredProducts: Product[] = [
     price: 'от 390 ₽',
     reminder: 'По медицинскому плану',
     aiReason: 'Рекомендация основана на заметках специалиста и истории обращений.',
-    preferenceBadge: { icon: '✓', label: 'Проверено Pet ID', tone: 'positive' },
+    preferenceBadge: { icon: '🐟', label: 'Рыба', tone: 'positive' },
   },
   {
     id: 'featured-4',
@@ -470,7 +470,7 @@ export const featuredProducts: Product[] = [
     price: '4 990 ₽',
     reminder: 'Раз в 45 дней',
     aiReason: 'Подходит как предсказуемый стартовый сценарий до формирования постоянной корзины.',
-    preferenceBadge: { icon: '✓', label: 'Подходит', tone: 'positive' },
+    preferenceBadge: { icon: '🐇', label: 'Кролик', tone: 'positive' },
   },
 ]
 

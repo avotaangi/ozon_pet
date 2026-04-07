@@ -11,6 +11,14 @@ const toneClass = {
   positive: 'bg-white text-emerald-600 ring-1 ring-emerald-100',
 } as const
 
+const hiddenGenericLabels = new Set([
+  'Подходит',
+  'Проверено Pet ID',
+  'Проверить состав',
+  'Любимый рацион',
+  'Полезно для суставов',
+])
+
 function getPreferenceMessage(label: string, tone: PreferenceBadgeProps['tone']) {
   if (tone === 'danger') {
     if (label.startsWith('Есть ')) {
@@ -24,6 +32,10 @@ function getPreferenceMessage(label: string, tone: PreferenceBadgeProps['tone'])
     return `Не нравится ${label.toLowerCase()}`
   }
 
+  if (label.startsWith('Без ')) {
+    return `Нравится ${label.replace(/^Без /, '').toLowerCase()}`
+  }
+
   if (label === 'Подходит' || label === 'Проверено Pet ID') {
     return 'Нравится питомцу'
   }
@@ -34,6 +46,11 @@ function getPreferenceMessage(label: string, tone: PreferenceBadgeProps['tone'])
 export function PreferenceBadge({ icon, label, tone }: PreferenceBadgeProps) {
   const [isOpen, setIsOpen] = useState(false)
   const message = getPreferenceMessage(label, tone)
+  const isGenericBadge = hiddenGenericLabels.has(label) || icon === '✓' || icon === '⚠'
+
+  if (isGenericBadge) {
+    return null
+  }
 
   return (
     <div className="absolute left-3 top-3 z-10">
@@ -44,6 +61,7 @@ export function PreferenceBadge({ icon, label, tone }: PreferenceBadgeProps) {
           className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm transition ${toneClass[tone]}`}
           aria-label={message}
           aria-pressed={isOpen}
+          title={message}
         >
           <span>{icon}</span>
         </button>

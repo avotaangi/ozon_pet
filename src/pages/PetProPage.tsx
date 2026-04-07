@@ -39,6 +39,26 @@ export function PetProPage() {
     },
   ]
   const roles = ['Грумер', 'Ветеринар', 'Ситтер', 'Кинолог', 'Передержка', 'Выгул']
+  const petWorkItems = [
+    {
+      pet: 'Рокси',
+      owner: 'Алина Игнатова',
+      startedAt: '10 апреля · 14:30',
+      note: 'Регулярный груминг и ручная сушка',
+    },
+    {
+      pet: 'Марс',
+      owner: 'Максим Лобчак',
+      startedAt: '9 апреля · 08:00',
+      note: 'Экспресс-уход и работа с чувствительной шерстью',
+    },
+    {
+      pet: 'Персик',
+      owner: 'Ирина Смирнова',
+      startedAt: '12 апреля · 12:00',
+      note: 'Кошачий груминг и спокойный сценарий визита',
+    },
+  ]
 
   const addSpecialization = () => {
     const value = specializationDraft.trim()
@@ -212,6 +232,22 @@ export function PetProPage() {
             <div className="mt-3 text-sm leading-7 text-slate-600">{text}</div>
           </div>
         ))}
+      </section>
+
+      <section className="rounded-[28px] bg-white p-6 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
+        <div className="text-sm text-slate-500">Клиенты и питомцы</div>
+        <div className="mt-2 text-2xl font-semibold text-slate-950">Работа с питомцами</div>
+        <div className="mt-4 grid gap-4 md:grid-cols-3">
+          {petWorkItems.map((item) => (
+            <article key={`${item.pet}-${item.startedAt}`} className="rounded-[22px] bg-slate-50 p-4">
+              <div className="text-lg font-semibold text-slate-950">{item.pet}</div>
+              <div className="mt-1 text-sm text-slate-500">{item.owner}</div>
+              <div className="mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-ozon-blue">Начало работы</div>
+              <div className="mt-1 text-sm font-medium text-slate-900">{item.startedAt}</div>
+              <div className="mt-3 text-sm leading-7 text-slate-600">{item.note}</div>
+            </article>
+          ))}
+        </div>
       </section>
     </div>
   )

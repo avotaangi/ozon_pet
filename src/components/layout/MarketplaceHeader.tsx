@@ -1,12 +1,15 @@
 import { Grid2x2, Heart, MapPin, MessageCircle, Search, ShoppingCart } from 'lucide-react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
 export function MarketplaceHeader() {
+  const location = useLocation()
+  const isLoginPage = location.pathname === '/login'
   const headerActions = [
     { icon: MessageCircle, label: 'Чаты' },
     { icon: Heart, label: 'Избранное' },
     { icon: ShoppingCart, label: 'Корзина' },
   ]
+  const personalInfoItems = ['Главная', 'Мой профиль', 'Способы оплаты', 'Баллы и бонусы', 'Ozon Premium', 'Ozon PetPro']
 
   return (
     <header className="border-b border-slate-200/80 bg-white/92 backdrop-blur-xl">
@@ -84,9 +87,26 @@ export function MarketplaceHeader() {
             </div>
           </div>
         </div>
+
+        {isLoginPage ? (
+          <div className="border-t border-slate-100 px-4 py-3 md:hidden">
+            <div className="flex flex-wrap gap-2">
+              {personalInfoItems.map((item) => (
+                <div
+                  key={item}
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
+                    item === 'Ozon PetPro' ? 'bg-ozon-blue text-white' : 'bg-slate-100 text-slate-600'
+                  }`}
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </div>
 
-      <div className="mx-auto max-w-[1180px] px-4 py-4 md:px-6">
+      <div className="mx-auto hidden max-w-[1180px] px-4 py-4 md:px-6 md:block">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-3 text-sm text-slate-500 md:flex-row md:items-center md:justify-between">
             <nav className="flex flex-wrap items-center gap-x-4 gap-y-2">
