@@ -268,8 +268,29 @@ export function MarketplaceHomeContent() {
           </aside>
 
           <div className="space-y-4">
-            <div className="rounded-[24px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
-              <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => setServiceMode('all')}
+                className={`rounded-full px-4 py-2 text-sm font-semibold ${
+                  serviceMode === 'all' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'
+                }`}
+              >
+                Все услуги
+              </button>
+              <button
+                type="button"
+                onClick={() => setServiceMode('instant')}
+                className={`rounded-full px-4 py-2 text-sm font-semibold ${
+                  serviceMode === 'instant' ? 'bg-ozon-magenta text-white' : 'bg-ozon-magenta/10 text-ozon-magenta'
+                }`}
+              >
+                По клику
+              </button>
+            </div>
+
+            {serviceMode === 'instant' ? (
+              <div className="rounded-[24px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
                 <div>
                   <div className="text-sm font-semibold uppercase tracking-[0.16em] text-ozon-magenta">Быстрый сценарий</div>
                   <div className="mt-2 text-xl font-semibold text-slate-950">По клику</div>
@@ -277,29 +298,7 @@ export function MarketplaceHomeContent() {
                     Сервис для ситуаций здесь и сейчас: владелец выбирает специализацию ситтера, видит ближайшую карту и запускает поиск специалиста почти как в такси.
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setServiceMode('all')}
-                    className={`rounded-full px-4 py-2 text-sm font-semibold ${
-                      serviceMode === 'all' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'
-                    }`}
-                  >
-                    Все услуги
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setServiceMode('instant')}
-                    className={`rounded-full px-4 py-2 text-sm font-semibold ${
-                      serviceMode === 'instant' ? 'bg-ozon-magenta text-white' : 'bg-ozon-magenta/10 text-ozon-magenta'
-                    }`}
-                  >
-                    По клику
-                  </button>
-                </div>
-              </div>
 
-              {serviceMode === 'instant' ? (
                 <div className="mt-5 grid gap-4 xl:grid-cols-[0.92fr_1.08fr]">
                   <div className="rounded-[22px] bg-slate-50 p-4">
                     <div className="text-sm font-semibold text-slate-700">Кого ищем прямо сейчас</div>
@@ -342,27 +341,10 @@ export function MarketplaceHomeContent() {
                     >
                       Искать {instantSpecialty}
                     </button>
-                    <div className="mt-4">
-                      <div className="text-sm font-semibold text-slate-700">Возможные специалисты</div>
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {[
-                          `${instantSpecialty} у дома`,
-                          `${instantSpecialty} с рейтингом 4.9+`,
-                          `${instantSpecialty} с доступом к Pet ID`,
-                        ].map((item) => (
-                          <div
-                            key={item}
-                            className="rounded-full bg-white px-3 py-2 text-xs font-semibold text-slate-600 ring-1 ring-slate-200"
-                          >
-                            {item}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
                   </div>
                 </div>
-              ) : null}
-            </div>
+              </div>
+            ) : null}
 
           <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
             {visibleServices.map((item) => (
