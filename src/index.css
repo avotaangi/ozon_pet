@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ozon-blue: #005bff;
+  --color-ozon-magenta: #f1117e;
+  --color-ozon-dark: #001a34;
+  --color-ozon-sky: #00a2ff;
+  --color-ozon-green: #00be6c;
+  --color-ozon-orange: #ffa800;
+  --font-sans: "Avenir Next", "SF Pro Display", "Segoe UI", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #f7faff;
+  color: #334155;
+  font-family: var(--font-sans);
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(0, 91, 255, 0.16);
+}
