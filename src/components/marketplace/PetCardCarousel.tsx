@@ -62,8 +62,8 @@ export function PetCardCarousel() {
             className="size-18 shrink-0 rounded-full object-cover shadow-[0_8px_24px_rgba(15,23,42,0.12)] md:size-20"
           />
           <div className="min-w-0 flex-1">
-            <div className="text-[1.8rem] font-semibold leading-none tracking-tight text-black md:text-[2rem]">{activePet.name}</div>
-            <div className="mt-1 text-base text-slate-600">{activePet.breed}</div>
+            <div className="text-[1.65rem] font-semibold leading-none tracking-tight text-black md:text-[1.9rem]">{activePet.name}</div>
+            <div className="mt-1 text-sm text-slate-600 md:text-[15px]">{activePet.breed}</div>
             <div className="mt-1 text-sm font-medium text-slate-500">{activePet.age}</div>
           </div>
           <div className="hidden shrink-0 self-center sm:flex sm:flex-col sm:items-center">

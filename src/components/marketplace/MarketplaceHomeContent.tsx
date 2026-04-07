@@ -103,7 +103,7 @@ export function MarketplaceHomeContent() {
               <div className="rounded-full bg-ozon-blue px-3 py-1.5 text-sm font-semibold uppercase tracking-[0.08em] text-white shadow-[0_8px_20px_rgba(0,91,255,0.22)]">
                 Pet
               </div>
-              <div className="text-lg font-semibold uppercase text-slate-900 md:text-xl">{title}</div>
+              <div className="text-base font-semibold uppercase text-slate-900 md:text-xl">{title}</div>
               {title === 'Добро' ? (
                 <div className="ml-auto flex size-9 items-center justify-center rounded-full bg-ozon-magenta text-white shadow-[0_10px_24px_rgba(241,17,126,0.28)]">
                   <Heart className="size-4 fill-current" />
