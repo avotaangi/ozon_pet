@@ -12,33 +12,70 @@ export function MarketplaceHeader() {
   const personalInfoItems = ['Главная', 'Мой профиль', 'Способы оплаты', 'Баллы и бонусы', 'Ozon Premium', 'Ozon PetPro']
 
   return (
-    <header className="border-b border-slate-200/80 bg-white/92 backdrop-blur-xl">
-      <div className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/92 backdrop-blur-xl">
-        <div className="mx-auto max-w-[1180px] px-4 py-4 md:px-6">
-          <div className="flex flex-wrap items-center gap-3 lg:flex-nowrap">
-            <div className="flex w-full items-center gap-3 overflow-x-auto lg:w-auto lg:overflow-visible">
-              <NavLink to="/" className="shrink-0 text-[2.1rem] font-black uppercase tracking-tight text-ozon-blue">
-                OZON
-              </NavLink>
+    <>
+      <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/92 backdrop-blur-xl">
+        <div className="border-b border-slate-200/80 bg-white/92 backdrop-blur-xl">
+          <div className="mx-auto max-w-[1180px] px-4 py-4 md:px-6">
+            <div className="flex flex-wrap items-center gap-3 lg:flex-nowrap">
+              <div className="flex w-full items-center gap-3 overflow-x-auto lg:w-auto lg:overflow-visible">
+                <NavLink to="/" className="shrink-0 text-[2.1rem] font-black uppercase tracking-tight text-ozon-blue">
+                  OZON
+                </NavLink>
 
-              <button className="hidden shrink-0 items-center gap-2 rounded-2xl bg-ozon-blue px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(0,91,255,0.22)] lg:inline-flex">
-                <Grid2x2 className="size-4" />
-                Каталог
-              </button>
+                <button className="hidden shrink-0 items-center gap-2 rounded-2xl bg-ozon-blue px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(0,91,255,0.22)] lg:inline-flex">
+                  <Grid2x2 className="size-4" />
+                  Каталог
+                </button>
 
-              <div className="ml-auto flex items-center gap-4 lg:hidden">
+                <div className="ml-auto flex items-center gap-4 lg:hidden">
+                  {headerActions.map(({ icon: Icon, label }) => (
+                    <NavLink
+                      key={`mobile-${label}`}
+                      to="#"
+                      className="flex shrink-0 flex-col items-center gap-1 text-xs text-slate-600"
+                    >
+                      <Icon className="size-5 text-slate-500" />
+                      {label}
+                    </NavLink>
+                  ))}
+
+                  <NavLink to="/login" className="flex shrink-0 flex-col items-center gap-1 text-xs text-slate-600">
+                    <div className="size-8 overflow-hidden rounded-full shadow-[0_6px_18px_rgba(15,23,42,0.18)] ring-2 ring-white">
+                      <img
+                        src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80"
+                        alt="Профиль"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    Я
+                  </NavLink>
+                </div>
+              </div>
+
+              <div className="order-2 flex min-w-[280px] basis-full items-center overflow-hidden rounded-2xl border-2 border-ozon-blue bg-white lg:order-none lg:min-w-[280px] lg:basis-auto lg:flex-1">
+                <div className="hidden border-r border-slate-200 px-4 py-3 text-sm text-slate-500 sm:block">Везде</div>
+                <input
+                  className="min-w-0 flex-1 px-4 py-3 text-sm outline-none placeholder:text-slate-400"
+                  placeholder="Искать на Ozon"
+                />
+                <button className="flex h-full items-center justify-center px-5 text-ozon-blue">
+                  <Search className="size-5" />
+                </button>
+              </div>
+
+              <div className="ml-auto hidden items-center gap-5 lg:flex">
                 {headerActions.map(({ icon: Icon, label }) => (
                   <NavLink
-                    key={`mobile-${label}`}
+                    key={label}
                     to="#"
-                    className="flex shrink-0 flex-col items-center gap-1 text-xs text-slate-600"
+                    className="flex flex-col items-center gap-1 text-xs text-slate-600"
                   >
                     <Icon className="size-5 text-slate-500" />
                     {label}
                   </NavLink>
                 ))}
 
-                <NavLink to="/login" className="flex shrink-0 flex-col items-center gap-1 text-xs text-slate-600">
+                <NavLink to="/login" className="flex flex-col items-center gap-1 text-xs text-slate-600">
                   <div className="size-8 overflow-hidden rounded-full shadow-[0_6px_18px_rgba(15,23,42,0.18)] ring-2 ring-white">
                     <img
                       src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80"
@@ -50,89 +87,56 @@ export function MarketplaceHeader() {
                 </NavLink>
               </div>
             </div>
-
-            <div className="order-2 flex min-w-[280px] basis-full items-center overflow-hidden rounded-2xl border-2 border-ozon-blue bg-white lg:order-none lg:min-w-[280px] lg:basis-auto lg:flex-1">
-              <div className="hidden border-r border-slate-200 px-4 py-3 text-sm text-slate-500 sm:block">Везде</div>
-              <input
-                className="min-w-0 flex-1 px-4 py-3 text-sm outline-none placeholder:text-slate-400"
-                placeholder="Искать на Ozon"
-              />
-              <button className="flex h-full items-center justify-center px-5 text-ozon-blue">
-                <Search className="size-5" />
-              </button>
-            </div>
-
-            <div className="ml-auto hidden items-center gap-5 lg:flex">
-              {headerActions.map(({ icon: Icon, label }) => (
-                <NavLink
-                  key={label}
-                  to="#"
-                  className="flex flex-col items-center gap-1 text-xs text-slate-600"
-                >
-                  <Icon className="size-5 text-slate-500" />
-                  {label}
-                </NavLink>
-              ))}
-
-              <NavLink to="/login" className="flex flex-col items-center gap-1 text-xs text-slate-600">
-                <div className="size-8 overflow-hidden rounded-full shadow-[0_6px_18px_rgba(15,23,42,0.18)] ring-2 ring-white">
-                  <img
-                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80"
-                    alt="Профиль"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                Я
-              </NavLink>
-            </div>
           </div>
+
+          {isLoginPage ? (
+            <div className="border-t border-slate-100 px-4 py-3 md:hidden">
+              <div className="flex flex-wrap gap-2">
+                {personalInfoItems.map((item) => (
+                  <div
+                    key={item}
+                    className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
+                      item === 'Ozon PetPro' ? 'bg-ozon-blue text-white' : 'bg-slate-100 text-slate-600'
+                    }`}
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
+      </header>
 
-        {isLoginPage ? (
-          <div className="border-t border-slate-100 px-4 py-3 md:hidden">
-            <div className="flex flex-wrap gap-2">
-              {personalInfoItems.map((item) => (
-                <div
-                  key={item}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-                    item === 'Ozon PetPro' ? 'bg-ozon-blue text-white' : 'bg-slate-100 text-slate-600'
-                  }`}
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : null}
-      </div>
-
-      <div className="mx-auto hidden max-w-[1180px] px-4 py-4 md:px-6 md:block">
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-3 text-sm text-slate-500 md:flex-row md:items-center md:justify-between">
-            <nav className="flex flex-wrap items-center gap-x-4 gap-y-2">
-              {['Ozon fresh', 'Ozon Банк', 'Билеты, отели', 'Для бизнеса', 'Одежда', 'Электроника', 'Дом и сад', 'Товары за 1₽', 'Сертификаты', 'Ozon Pet'].map((item, index) => (
-                <span
-                  key={item}
-                  className={
-                    item === 'Ozon Pet'
-                      ? 'rounded-full bg-ozon-blue px-3 py-1 font-semibold text-white shadow-[0_8px_20px_rgba(0,91,255,0.2)]'
-                      : index === 0
-                        ? 'font-semibold text-ozon-green'
-                        : ''
-                  }
-                >
-                  {item}
-                </span>
-              ))}
-            </nav>
-            <div className="flex items-center gap-2">
-              <MapPin className="size-4" />
-              <span>Москва</span>
-              <span className="font-semibold text-ozon-blue">Укажите адрес</span>
+      <div className="border-b border-slate-200/80 bg-white/92 backdrop-blur-xl">
+        <div className="mx-auto max-w-[1180px] px-4 py-4 md:px-6">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3 text-sm text-slate-500 md:flex-row md:items-center md:justify-between">
+              <nav className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                {['Ozon fresh', 'Ozon Банк', 'Билеты, отели', 'Для бизнеса', 'Одежда', 'Электроника', 'Дом и сад', 'Товары за 1₽', 'Сертификаты', 'Ozon Pet'].map((item, index) => (
+                  <span
+                    key={item}
+                    className={
+                      item === 'Ozon Pet'
+                        ? 'rounded-full bg-ozon-blue px-3 py-1 font-semibold text-white shadow-[0_8px_20px_rgba(0,91,255,0.2)]'
+                        : index === 0
+                          ? 'font-semibold text-ozon-green'
+                          : ''
+                    }
+                  >
+                    {item}
+                  </span>
+                ))}
+              </nav>
+              <div className="flex items-center gap-2">
+                <MapPin className="size-4" />
+                <span>Москва</span>
+                <span className="font-semibold text-ozon-blue">Укажите адрес</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </header>
+    </>
   )
 }

@@ -104,9 +104,38 @@ export function PetBlogPage() {
           </button>
         </div>
 
-        <aside
-          className={`${mobileSectionsOpen ? 'block' : 'hidden'} rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)] xl:block`}
-        >
+        {mobileSectionsOpen ? (
+          <div className="fixed inset-0 z-40 bg-slate-950/30 px-4 py-6 xl:hidden">
+            <aside className="mx-auto max-w-[1180px] rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
+              <div className="flex items-center justify-between gap-4">
+                <div className="text-lg font-semibold text-slate-950">Разделы</div>
+                <button
+                  type="button"
+                  onClick={() => setMobileSectionsOpen(false)}
+                  className="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500"
+                >
+                  <X className="size-4" />
+                </button>
+              </div>
+              <div className="mt-4 space-y-2">
+                {communities.map((item, index) => (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => setMobileSectionsOpen(false)}
+                    className={`w-full rounded-[16px] px-4 py-3 text-left text-sm font-medium ${
+                      index === 0 ? 'bg-ozon-blue text-white' : 'bg-slate-50 text-slate-700'
+                    }`}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
+            </aside>
+          </div>
+        ) : null}
+
+        <aside className="hidden rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)] xl:block">
           <div className="text-lg font-semibold text-slate-950">Разделы</div>
           <div className="mt-4 space-y-2">
             {communities.map((item, index) => (
