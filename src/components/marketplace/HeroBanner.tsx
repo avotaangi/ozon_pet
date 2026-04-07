@@ -46,19 +46,20 @@ export function HeroBanner() {
         <div className="absolute bottom-[14%] right-[10%] h-12 w-12 rounded-full border border-white/18 bg-white/10" />
         <div className="absolute left-[44%] top-[34%] h-12 w-12 rounded-full border-[4px] border-white/30 bg-white/18 shadow-[0_10px_24px_rgba(255,255,255,0.08)] md:h-14 md:w-14" />
 
-        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2">
-          {bannerSlides.map((slide, index) => (
-            <button
-              key={slide.title}
-              type="button"
-              onClick={() => setActiveIndex(index)}
-              className={`size-2.5 rounded-full transition ${
-                index === activeIndex ? 'bg-white' : 'bg-white/40'
-              }`}
-              aria-label={`Показать слайд ${index + 1}`}
-            />
-          ))}
-        </div>
+      </div>
+
+      <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2">
+        {bannerSlides.map((slide, index) => (
+          <button
+            key={slide.title}
+            type="button"
+            onClick={() => setActiveIndex(index)}
+            className={`size-2.5 rounded-full transition ${
+              index === activeIndex ? 'bg-white' : 'bg-white/40'
+            }`}
+            aria-label={`Показать слайд ${index + 1}`}
+          />
+        ))}
       </div>
     </div>
   )

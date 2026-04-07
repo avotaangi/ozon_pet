@@ -82,7 +82,7 @@ export function PetCardCarousel() {
         </div>
       </div>
 
-      <div className="absolute bottom-7 left-1/2 flex -translate-x-1/2 items-center justify-center gap-3">
+      <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center justify-center gap-3">
         {pets.map((pet, index) => (
           <button
             key={pet.id}
