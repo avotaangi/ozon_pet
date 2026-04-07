@@ -13,27 +13,42 @@ export function MarketplaceHeader() {
       <div className="mx-auto max-w-[1180px] px-4 py-4 md:px-6">
         <div className="flex flex-col gap-4">
           <div className="flex flex-wrap items-center gap-3 lg:flex-nowrap">
-            <NavLink to="/" className="text-[2.1rem] font-black uppercase tracking-tight text-ozon-blue">
-              OZON
-            </NavLink>
+            <div className="flex w-full items-center gap-3 overflow-x-auto lg:w-auto lg:overflow-visible">
+              <NavLink to="/" className="shrink-0 text-[2.1rem] font-black uppercase tracking-tight text-ozon-blue">
+                OZON
+              </NavLink>
 
-            <NavLink to="/login" className="ml-auto flex flex-col items-center gap-1 text-xs text-slate-600 lg:hidden">
-              <div className="size-8 overflow-hidden rounded-full shadow-[0_6px_18px_rgba(15,23,42,0.18)] ring-2 ring-white">
-                <img
-                  src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80"
-                  alt="Профиль"
-                  className="h-full w-full object-cover"
-                />
+              <button className="shrink-0 inline-flex items-center gap-2 rounded-2xl bg-ozon-blue px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(0,91,255,0.22)]">
+                <Grid2x2 className="size-4" />
+                Каталог
+              </button>
+
+              <div className="ml-auto flex items-center gap-4 lg:hidden">
+                {headerActions.map(({ icon: Icon, label }) => (
+                  <NavLink
+                    key={`mobile-${label}`}
+                    to="#"
+                    className="flex shrink-0 flex-col items-center gap-1 text-xs text-slate-600"
+                  >
+                    <Icon className="size-5 text-slate-500" />
+                    {label}
+                  </NavLink>
+                ))}
+
+                <NavLink to="/login" className="flex shrink-0 flex-col items-center gap-1 text-xs text-slate-600">
+                  <div className="size-8 overflow-hidden rounded-full shadow-[0_6px_18px_rgba(15,23,42,0.18)] ring-2 ring-white">
+                    <img
+                      src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80"
+                      alt="Профиль"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                  Я
+                </NavLink>
               </div>
-              Я
-            </NavLink>
+            </div>
 
-            <button className="inline-flex items-center gap-2 rounded-2xl bg-ozon-blue px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(0,91,255,0.22)]">
-              <Grid2x2 className="size-4" />
-              Каталог
-            </button>
-
-            <div className="flex min-w-[280px] flex-1 items-center overflow-hidden rounded-2xl border-2 border-ozon-blue bg-white">
+            <div className="order-2 flex min-w-[280px] basis-full items-center overflow-hidden rounded-2xl border-2 border-ozon-blue bg-white lg:order-none lg:min-w-[280px] lg:basis-auto lg:flex-1">
               <div className="hidden border-r border-slate-200 px-4 py-3 text-sm text-slate-500 sm:block">Везде</div>
               <input
                 className="min-w-0 flex-1 px-4 py-3 text-sm outline-none placeholder:text-slate-400"
