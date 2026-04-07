@@ -1,25 +1,47 @@
 import { ArrowLeft, ArrowRight, HeartHandshake, MapPin, Package, Stethoscope } from 'lucide-react'
-import { NavLink, useParams } from 'react-router-dom'
+import { NavLink, useLocation, useParams } from 'react-router-dom'
+import { useState } from 'react'
 import { charityProfiles } from '../data/marketplace'
 
 const fundraisingCampaigns = [
   {
-    id: 'campaign-1',
-    title: 'Сбор на лечение после экстренной операции',
-    goal: '120 000 ₽',
-    raised: '86 400 ₽',
-    progress: 72,
-    report: 'Оплачены анализы, стационар и первые 5 дней восстановления. Отчёт загружен 5 апреля.',
+    id: 'campaign-0',
+    title: 'Сбор на курс антибиотиков и перевязочные материалы',
+    goal: '54 000 ₽',
+    raised: '31 500 ₽',
+    progress: 58,
+    report: 'Открыт текущий сбор на лекарства и расходники для животных после экстренных процедур. Отчёт обновляется по мере поставок.',
     profileSlug: 'lapa-nadezhdy',
+    isCompleted: false,
+  },
+  {
+    id: 'campaign-1',
+    title: 'Сбор на экстренную операцию и восстановление',
+    goal: '120 000 ₽',
+    raised: '84 200 ₽',
+    progress: 70,
+    report: 'Операция, анализы и первые дни стационара оплачены адресным партнёром. Сбор закрыт досрочно, потому что недостающую сумму добавил корпоративный донор. Отчёт загружен 5 апреля.',
+    profileSlug: 'lapa-nadezhdy',
+    isCompleted: true,
+    earlyCloseReason: 'Недостающую сумму на лечение закрыл корпоративный донор фонда.',
+    photos: [
+      'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=900&q=80',
+    ],
   },
   {
     id: 'campaign-2',
     title: 'Сбор на корм и расходники для карантинного блока',
     goal: '68 000 ₽',
-    raised: '42 600 ₽',
-    progress: 63,
-    report: 'Закрыта первая поставка корма и пелёнок. Следующий отчёт после следующей доставки.',
+    raised: '68 000 ₽',
+    progress: 100,
+    report: 'Полностью закрыта поставка сухого и влажного корма, пелёнок и расходников. Отчёт с накладными загружен 2 апреля.',
     profileSlug: 'lapa-nadezhdy',
+    isCompleted: true,
+    photos: [
+      'https://images.unsplash.com/photo-1583512603806-077998240c7a?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1560743641-3914f2c45636?auto=format&fit=crop&w=900&q=80',
+    ],
   },
   {
     id: 'campaign-3',
@@ -29,40 +51,90 @@ const fundraisingCampaigns = [
     progress: 64,
     report: 'Закрыта часть поставки лежанок и первый выезд сервиса. Отчёт обновлён 6 апреля.',
     profileSlug: 'ozon-care-fund',
+    isCompleted: false,
   },
+  {
+    id: 'campaign-4',
+    title: 'Сбор на диагностику и стерилизацию новых подопечных',
+    goal: '74 000 ₽',
+    raised: '74 000 ₽',
+    progress: 100,
+    report: 'Полностью оплачены обследования, стерилизация и послеоперационный уход для новых животных. Отчёт загружен 28 марта.',
+    profileSlug: 'ozon-care-fund',
+    isCompleted: true,
+    photos: [
+      'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1511044568932-338cba0ad803?auto=format&fit=crop&w=900&q=80',
+    ],
+  },
+  {
+    id: 'campaign-5',
+    title: 'Сбор на тёплые лежанки и санитарную обработку',
+    goal: '92 000 ₽',
+    raised: '65 000 ₽',
+    progress: 71,
+    report: 'Часть лежанок предоставил local-партнёр, поэтому сбор закрыт раньше полной суммы. На собранные деньги оформлена санитарная обработка и закуплены недостающие позиции. Отчёт загружен 21 марта.',
+    profileSlug: 'ozon-care-fund',
+    isCompleted: true,
+    earlyCloseReason: 'Часть позиций фонд получил от local-партнёра вне платформы.',
+    photos: [
+      'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1545249390-6bdfa286032f?auto=format&fit=crop&w=900&q=80',
+    ],
+  },
+]
+
+const adoptionShelters = [
+  { id: 'shelter-1', name: 'Лапа надежды', city: 'Москва', pets: '14 животных ищут дом', x: '22%', y: '28%' },
+  { id: 'shelter-2', name: 'Тёплый хвост', city: 'Химки', pets: '9 животных ищут дом', x: '58%', y: '36%' },
+  { id: 'shelter-3', name: 'Дом для друга', city: 'Мытищи', pets: '11 животных ищут дом', x: '42%', y: '62%' },
+  { id: 'shelter-4', name: 'Новый шанс', city: 'Балашиха', pets: '7 животных ищут дом', x: '76%', y: '56%' },
 ]
 
 export function PetDobroPage() {
   const { profileSlug } = useParams()
+  const { pathname } = useLocation()
+  const [isSheltersMapOpen, setIsSheltersMapOpen] = useState(false)
+  const [donationAmount, setDonationAmount] = useState('')
   const activeProfile = charityProfiles.find((profile) => profile.slug === profileSlug)
+  const isCampaignsView = pathname.endsWith('/campaigns')
 
-  if (profileSlug === 'campaigns') {
+  if (isCampaignsView && activeProfile) {
+    const completedCampaigns = fundraisingCampaigns.filter(
+      (campaign) => campaign.profileSlug === activeProfile.slug && campaign.isCompleted,
+    )
+
     return (
       <div className="space-y-6">
         <section className="rounded-[32px] bg-[linear-gradient(180deg,#001a34_0%,#07346f_100%)] p-7 text-white shadow-[0_18px_60px_rgba(0,26,52,0.18)]">
           <div className="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">Pet-добро</div>
-          <h1 className="mt-3 text-4xl font-semibold tracking-tight">Все сборы и отчётность</h1>
+          <h1 className="mt-3 text-4xl font-semibold tracking-tight">Все сборы и отчётность фонда</h1>
           <p className="mt-4 max-w-3xl text-base leading-8 text-white/78">
-            Здесь видно, на что именно собираются средства, сколько уже закрыто и какая отчётность загружена по каждому сбору.
+            Здесь показаны только завершённые сборы фонда {activeProfile.title}. Активные сборы остаются в блоке `Сбор сейчас` на карточке фонда.
           </p>
         </section>
 
+        <NavLink
+          to={`/pet-dobro/${activeProfile.slug}`}
+          className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-[0_12px_38px_rgba(15,23,42,0.06)]"
+        >
+          <ArrowLeft className="size-4" />
+          Вернуться в карточку фонда
+        </NavLink>
+
         <div className="space-y-4">
-          {fundraisingCampaigns.map((campaign) => (
+          {completedCampaigns.map((campaign) => (
             <article key={campaign.id} className="rounded-[28px] bg-white p-6 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <div className="inline-flex rounded-full bg-ozon-magenta/10 px-3 py-1 text-xs font-semibold text-ozon-magenta">
-                    Открытый сбор
+                  <div className="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                    Завершённый сбор
                   </div>
                   <div className="mt-3 text-2xl font-semibold text-slate-950">{campaign.title}</div>
                 </div>
-                <NavLink
-                  to={`/pet-dobro/${campaign.profileSlug}`}
-                  className="rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700"
-                >
-                  Открыть фонд
-                </NavLink>
+                <div className="rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700">
+                  {activeProfile.location}
+                </div>
               </div>
 
               <div className="mt-5 grid gap-4 md:grid-cols-3">
@@ -90,6 +162,24 @@ export function PetDobroPage() {
               <div className="mt-5 rounded-[22px] bg-[#f8fbff] p-4">
                 <div className="text-sm font-semibold text-slate-900">Отчётность</div>
                 <div className="mt-2 text-sm leading-7 text-slate-600">{campaign.report}</div>
+                {campaign.photos?.length ? (
+                  <div className="mt-4 grid gap-3 md:grid-cols-2">
+                    {campaign.photos.map((photo, index) => (
+                      <div key={photo} className="overflow-hidden rounded-[18px] bg-white">
+                        <img
+                          src={photo}
+                          alt={`${campaign.title} — фото отчётности ${index + 1}`}
+                          className="h-40 w-full object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+                {campaign.progress < 100 && campaign.earlyCloseReason ? (
+                  <div className="mt-4 rounded-[18px] bg-white px-4 py-3 text-sm leading-7 text-slate-600">
+                    <span className="font-semibold text-slate-900">Почему сбор завершён раньше:</span> {campaign.earlyCloseReason}
+                  </div>
+                ) : null}
               </div>
             </article>
           ))}
@@ -101,7 +191,9 @@ export function PetDobroPage() {
   if (activeProfile) {
     const goods = activeProfile.requestedSupport.filter((item) => item.type === 'goods')
     const services = activeProfile.requestedSupport.filter((item) => item.type === 'service')
-    const profileCampaigns = fundraisingCampaigns.filter((campaign) => campaign.profileSlug === activeProfile.slug)
+    const activeCampaign = fundraisingCampaigns.find(
+      (campaign) => campaign.profileSlug === activeProfile.slug && !campaign.isCompleted,
+    )
 
     return (
       <div className="space-y-6">
@@ -213,27 +305,47 @@ export function PetDobroPage() {
               </div>
             </div>
 
-            {profileCampaigns[0] ? (
+            {activeCampaign ? (
               <div className="rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
                 <div className="text-lg font-semibold text-slate-950">Сбор сейчас</div>
                 <div className="mt-4 rounded-[22px] bg-slate-50 p-4">
                   <div className="inline-flex rounded-full bg-ozon-magenta/10 px-3 py-1 text-xs font-semibold text-ozon-magenta">
                     Открытый сбор
                   </div>
-                  <div className="mt-3 text-lg font-semibold text-slate-950">{profileCampaigns[0].title}</div>
+                  <div className="mt-3 text-lg font-semibold text-slate-950">{activeCampaign.title}</div>
                   <div className="mt-3 flex items-center justify-between gap-3 text-sm text-slate-600">
-                    <span>Собрано {profileCampaigns[0].raised}</span>
-                    <span>из {profileCampaigns[0].goal}</span>
+                    <span>Собрано {activeCampaign.raised}</span>
+                    <span>из {activeCampaign.goal}</span>
                   </div>
                   <div className="mt-3 h-3 overflow-hidden rounded-full bg-white">
                     <div
                       className="h-full rounded-full bg-[linear-gradient(90deg,#F1117E_0%,#FF6AAF_100%)]"
-                      style={{ width: `${profileCampaigns[0].progress}%` }}
+                      style={{ width: `${activeCampaign.progress}%` }}
                     />
                   </div>
-                  <div className="mt-3 text-sm leading-7 text-slate-600">{profileCampaigns[0].report}</div>
+                  <div className="mt-3 text-sm leading-7 text-slate-600">{activeCampaign.report}</div>
+                  <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                    <div className="flex min-w-0 flex-1 items-center rounded-2xl border border-slate-200 bg-white pr-4 transition focus-within:border-ozon-magenta">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        placeholder="350"
+                        value={donationAmount}
+                        onChange={(event) => setDonationAmount(event.target.value.replace(/\D/g, ''))}
+                        className="min-w-0 flex-1 rounded-2xl bg-transparent px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400"
+                      />
+                      <span className="shrink-0 text-sm font-medium text-slate-500">₽</span>
+                    </div>
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center rounded-2xl bg-ozon-magenta px-5 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(241,17,126,0.22)]"
+                    >
+                      Пожертвовать
+                    </button>
+                  </div>
                   <NavLink
-                    to="/pet-dobro/campaigns"
+                    to={`/pet-dobro/${activeProfile.slug}/campaigns`}
                     className="mt-4 inline-flex rounded-full bg-ozon-blue px-4 py-2 text-sm font-semibold text-white"
                   >
                     Посмотреть все сборы
@@ -292,12 +404,76 @@ export function PetDobroPage() {
   return (
     <div className="space-y-6">
       <section className="rounded-[32px] bg-[linear-gradient(180deg,#001a34_0%,#07346f_100%)] p-7 text-white shadow-[0_18px_60px_rgba(0,26,52,0.18)]">
-        <div className="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">Pet-добро</div>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight">Карточки волонтёров, фондов и точек адресной помощи</h1>
-        <p className="mt-4 max-w-3xl text-base leading-8 text-white/78">
-          Здесь Ozon соединяет волонтёра и покупателя: все нужные товары и услуги оформляются внутри платформы, а доставка идёт прямо в приют, который указан в профиле.
-        </p>
+        <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
+          <div className="max-w-3xl">
+            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">Pet-добро</div>
+            <h1 className="mt-3 text-4xl font-semibold tracking-tight">Карточки волонтёров, фондов и точек адресной помощи</h1>
+            <p className="mt-4 text-base leading-8 text-white/78">
+              Здесь Ozon соединяет волонтёра и покупателя: все нужные товары и услуги оформляются внутри платформы, а доставка идёт прямо в приют, который указан в профиле.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsSheltersMapOpen((value) => !value)}
+            className="inline-flex items-center justify-center rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-ozon-blue shadow-[0_10px_24px_rgba(255,255,255,0.12)]"
+          >
+            Карта с приютами
+          </button>
+        </div>
       </section>
+
+      {isSheltersMapOpen ? (
+        <section className="rounded-[28px] bg-white p-6 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
+          <div className="flex items-center gap-2 text-2xl font-semibold text-slate-950">
+            <MapPin className="size-5 text-ozon-magenta" />
+            Карта с приютами, в которых можно подобрать себе животное
+          </div>
+          <div className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">
+            Здесь собраны приюты и точки помощи, где люди могут познакомиться с животными и выбрать питомца, которому нужен дом.
+          </div>
+
+          <div className="mt-5 grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+            <div className="overflow-hidden rounded-[24px] bg-[linear-gradient(135deg,#eef5ff_0%,#ffffff_100%)] p-4">
+              <div className="relative h-[320px] rounded-[20px] border border-slate-200 bg-[linear-gradient(180deg,#f8fbff_0%,#edf4ff_100%)]">
+                <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,91,255,0.06)_1px,transparent_1px),linear-gradient(180deg,rgba(0,91,255,0.06)_1px,transparent_1px)] bg-[size:36px_36px]" />
+                {adoptionShelters.map((shelter) => (
+                  <div
+                    key={shelter.id}
+                    className="absolute -translate-x-1/2 -translate-y-1/2"
+                    style={{ left: shelter.x, top: shelter.y }}
+                  >
+                    <div className="relative">
+                      <div className="absolute left-1/2 top-1/2 size-14 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ozon-magenta/15 blur-sm" />
+                      <div className="relative flex size-11 items-center justify-center rounded-full bg-ozon-magenta text-white shadow-[0_12px_24px_rgba(241,17,126,0.24)]">
+                        <MapPin className="size-4" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              {adoptionShelters.map((shelter) => (
+                <div key={shelter.id} className="rounded-[20px] bg-slate-50 p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <div className="text-lg font-semibold text-slate-950">{shelter.name}</div>
+                      <div className="mt-1 text-sm text-slate-500">{shelter.city}</div>
+                    </div>
+                    <div className="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-slate-600">
+                      {shelter.pets}
+                    </div>
+                  </div>
+                  <div className="mt-3 text-sm leading-7 text-slate-600">
+                    Можно приехать, познакомиться с животными и выбрать питомца, которому нужен дом.
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="grid gap-5 xl:grid-cols-3">
         {charityProfiles.map((profile) => (

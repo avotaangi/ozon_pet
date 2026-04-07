@@ -106,6 +106,14 @@ function App() {
         }
       />
       <Route
+        path="/pet-dobro/:profileSlug/campaigns"
+        element={
+          <AppShell>
+            <PetDobroPage />
+          </AppShell>
+        }
+      />
+      <Route
         path="/pet-dobro/:profileSlug"
         element={
           <AppShell>

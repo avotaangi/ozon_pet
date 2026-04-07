@@ -245,21 +245,18 @@ export const pets: Pet[] = [
 export const productCategories: Category[] = [
   { id: 'food', title: 'Корм', emoji: '🥣' },
   { id: 'toys', title: 'Игрушки', emoji: '🦴' },
-  { id: 'pharmacy', title: 'Ветаптека', emoji: '💊' },
   { id: 'other', title: 'Другое', emoji: '📦' },
 ]
 
 export const sidebarCategories = [
   'Корм',
   'Игрушки',
-  'Ветаптека',
   'Другое',
   'Сухой корм',
   'Влажный корм',
   'Лакомства',
   'Игрушки и активность',
   'Уход и гигиена',
-  'Ветаптека',
 ]
 
 export const productItems: Product[] = [
@@ -446,7 +443,7 @@ export const featuredProducts: Product[] = [
   },
   {
     id: 'featured-3',
-    title: 'Ветаптека online',
+    title: 'Товары для здоровья',
     subtitle: 'Подтверждённые товары и советы',
     price: 'от 390 ₽',
     reminder: 'По медицинскому плану',
