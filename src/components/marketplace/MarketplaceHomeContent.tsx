@@ -99,13 +99,15 @@ export function MarketplaceHomeContent() {
               className="absolute inset-0 h-full w-full scale-110 object-cover opacity-20 blur-xl"
             />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.75),rgba(255,255,255,0.88))]" />
-            <div className="relative flex flex-wrap items-center gap-2">
-              <div className="rounded-full bg-ozon-blue px-3 py-1.5 text-sm font-semibold uppercase tracking-[0.08em] text-white shadow-[0_8px_20px_rgba(0,91,255,0.22)]">
+            <div className="relative flex flex-col items-start md:flex-row md:flex-wrap md:items-center md:gap-2">
+              <div className="w-fit rounded-full bg-ozon-blue px-3 py-1.5 text-sm font-semibold uppercase tracking-[0.08em] text-white shadow-[0_8px_20px_rgba(0,91,255,0.22)]">
                 Pet
               </div>
-              <div className="text-base font-semibold uppercase text-slate-900 md:text-xl">{title}</div>
+              <div className="mt-2 text-base font-semibold uppercase text-slate-900 md:mt-0 md:text-xl">
+                {title}
+              </div>
               {title === 'Добро' ? (
-                <div className="ml-auto flex size-9 items-center justify-center rounded-full bg-ozon-magenta text-white shadow-[0_10px_24px_rgba(241,17,126,0.28)]">
+                <div className="absolute right-0 top-0 flex size-9 items-center justify-center rounded-full bg-ozon-magenta text-white shadow-[0_10px_24px_rgba(241,17,126,0.28)]">
                   <Heart className="size-4 fill-current" />
                 </div>
               ) : null}
