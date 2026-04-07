@@ -1,6 +1,8 @@
+import { useNavigate } from 'react-router-dom'
 import { pets, services } from '../data/marketplace'
 
 export function ServicesPage() {
+  const navigate = useNavigate()
   const activeBookings = [
     { ...services.find((item) => item.id === 'srv-2')!, petName: 'Рокси', slot: '10 апреля, 14:30' },
     { ...services.find((item) => item.id === 'srv-3')!, petName: 'Марса', slot: '9 апреля, 08:00' },
@@ -33,7 +35,19 @@ export function ServicesPage() {
           const pet = petByDisplayName[item.petName]
 
           return (
-            <article key={`${item.id}-${item.petName}`} className="flex h-full flex-col rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
+            <article
+              key={`${item.id}-${item.petName}`}
+              role="button"
+              tabIndex={0}
+              onClick={() => navigate(`/service/${item.id}`)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault()
+                  navigate(`/service/${item.id}`)
+                }
+              }}
+              className="flex h-full cursor-pointer flex-col rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]"
+            >
               <div className="flex items-center gap-3 rounded-[22px] bg-slate-50 p-4">
                 {pet ? (
                   <img alt={pet.name} src={pet.photo} className="size-14 rounded-full object-cover" />
@@ -67,7 +81,19 @@ export function ServicesPage() {
             const pet = petByDisplayName[item.petName]
 
             return (
-              <article key={`${item.id}-${item.petName}-past`} className="flex h-full flex-col rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
+              <article
+                key={`${item.id}-${item.petName}-past`}
+                role="button"
+                tabIndex={0}
+                onClick={() => navigate(`/service/${item.id}`)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault()
+                    navigate(`/service/${item.id}`)
+                  }
+                }}
+                className="flex h-full cursor-pointer flex-col rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]"
+              >
                 <div className="flex items-center gap-3 rounded-[22px] bg-slate-50 p-4">
                   {pet ? (
                     <img alt={pet.name} src={pet.photo} className="size-14 rounded-full object-cover" />

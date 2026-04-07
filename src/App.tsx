@@ -11,6 +11,8 @@ import { PetDobroPage } from './pages/PetDobroPage'
 import { PetClickPage } from './pages/PetClickPage'
 import { PetProPage } from './pages/PetProPage'
 import { PetSubscriptionPage } from './pages/PetSubscriptionPage'
+import { ProductDetailPage } from './pages/ProductDetailPage'
+import { ServiceDetailPage } from './pages/ServiceDetailPage'
 import { ServicesPage } from './pages/ServicesPage'
 import { ServiceBookingPage } from './pages/ServiceBookingPage'
 
@@ -34,10 +36,26 @@ function App() {
         }
       />
       <Route
+        path="/product/:itemId"
+        element={
+          <AppShell>
+            <ProductDetailPage />
+          </AppShell>
+        }
+      />
+      <Route
         path="/services"
         element={
           <AppShell>
             <ServicesPage />
+          </AppShell>
+        }
+      />
+      <Route
+        path="/service/:itemId"
+        element={
+          <AppShell>
+            <ServiceDetailPage />
           </AppShell>
         }
       />

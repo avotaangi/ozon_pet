@@ -185,7 +185,19 @@ export function MarketplaceHomeContent() {
 
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                 {productItems.map((item) => (
-                  <article key={item.id} className="flex h-full flex-col rounded-[24px] bg-white p-4 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
+                  <article
+                    key={item.id}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => navigate(`/product/${item.id}`)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault()
+                        navigate(`/product/${item.id}`)
+                      }
+                    }}
+                    className="flex h-full cursor-pointer flex-col rounded-[24px] bg-white p-4 shadow-[0_12px_38px_rgba(15,23,42,0.06)]"
+                  >
                     <div className="relative flex h-38 items-center justify-center rounded-[20px] bg-[#d9d9d9] text-xl text-slate-500">
                       {item.preferenceBadge ? (
                         <PreferenceBadge
@@ -204,6 +216,7 @@ export function MarketplaceHomeContent() {
                       <div className="leading-none text-lg font-semibold text-slate-900">{item.price}</div>
                       <button
                         type="button"
+                        onClick={(event) => event.stopPropagation()}
                         className="shrink-0 rounded-full bg-ozon-blue px-3 py-1.5 text-xs font-semibold text-white"
                       >
                         В корзину
@@ -284,7 +297,19 @@ export function MarketplaceHomeContent() {
           {serviceOfferMode === 'single' ? (
           <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
             {visibleServices.map((item) => (
-              <article key={item.id} className="flex h-full flex-col rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
+              <article
+                key={item.id}
+                role="button"
+                tabIndex={0}
+                onClick={() => navigate(`/service/${item.id}`)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault()
+                    navigate(`/service/${item.id}`)
+                  }
+                }}
+                className="flex h-full cursor-pointer flex-col rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]"
+              >
                 <div className="flex h-38 items-center justify-center rounded-[20px] bg-[#d9d9d9] text-xl text-slate-500">Услуга</div>
                 <div className="mt-4 text-xl font-semibold text-slate-900">{item.title}</div>
                 <div className="mt-2 text-sm leading-7 text-slate-600">{item.subtitle}</div>
@@ -292,7 +317,10 @@ export function MarketplaceHomeContent() {
                   <span className="leading-none font-semibold text-ozon-dark">{item.price}</span>
                   <button
                     type="button"
-                    onClick={() => navigate(`/booking/service/${item.id}`)}
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      navigate(`/service/${item.id}`)
+                    }}
                     className="shrink-0 rounded-full bg-ozon-blue px-3 py-1.5 text-xs font-semibold text-white"
                   >
                     Оформить
