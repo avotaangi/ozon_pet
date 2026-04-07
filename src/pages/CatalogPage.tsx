@@ -1,5 +1,6 @@
 import { BellRing, BrainCircuit, Check, Clock3, Funnel, PackageCheck, Repeat } from 'lucide-react'
 import { useState } from 'react'
+import { PreferenceBadge } from '../components/marketplace/PreferenceBadge'
 import { featuredProducts, pets, productItems, sidebarCategories } from '../data/marketplace'
 
 export function CatalogPage() {
@@ -166,15 +167,11 @@ export function CatalogPage() {
             <article key={item.id} className="flex h-full flex-col rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
               <div className="relative flex h-44 items-center justify-center rounded-[22px] bg-[#d9d9d9] text-xl text-slate-500">
                 {item.preferenceBadge ? (
-                  <div
-                    className={`absolute left-3 top-3 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm ${
-                      item.preferenceBadge.tone === 'danger'
-                        ? 'bg-white text-rose-500 ring-1 ring-rose-100'
-                        : 'bg-white text-emerald-600 ring-1 ring-emerald-100'
-                    }`}
-                  >
-                    <span>{item.preferenceBadge.icon}</span>
-                  </div>
+                  <PreferenceBadge
+                    icon={item.preferenceBadge.icon}
+                    label={item.preferenceBadge.label}
+                    tone={item.preferenceBadge.tone}
+                  />
                 ) : null}
                 Товар
               </div>

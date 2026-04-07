@@ -8,11 +8,7 @@ import {
 } from '../../data/marketplace'
 import { HeroBanner } from './HeroBanner'
 import { PetCardCarousel } from './PetCardCarousel'
-
-const preferenceToneClass = {
-  danger: 'bg-white text-rose-500 ring-1 ring-rose-100',
-  positive: 'bg-white text-emerald-600 ring-1 ring-emerald-100',
-}
+import { PreferenceBadge } from './PreferenceBadge'
 
 export function MarketplaceHomeContent() {
   const [activeTab, setActiveTab] = useState<'products' | 'services'>('products')
@@ -198,11 +194,11 @@ export function MarketplaceHomeContent() {
                   <article key={item.id} className="flex h-full flex-col rounded-[24px] bg-white p-4 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
                     <div className="relative flex h-38 items-center justify-center rounded-[20px] bg-[#d9d9d9] text-xl text-slate-500">
                       {item.preferenceBadge ? (
-                        <div
-                          className={`absolute left-3 top-3 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm ${preferenceToneClass[item.preferenceBadge.tone]}`}
-                        >
-                          <span>{item.preferenceBadge.icon}</span>
-                        </div>
+                        <PreferenceBadge
+                          icon={item.preferenceBadge.icon}
+                          label={item.preferenceBadge.label}
+                          tone={item.preferenceBadge.tone}
+                        />
                       ) : null}
                       Товар
                     </div>

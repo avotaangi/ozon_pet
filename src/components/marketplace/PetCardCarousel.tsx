@@ -1,37 +1,42 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { pets } from '../../data/marketplace'
 
+type PetSlide =
+  | { type: 'pet'; pet: (typeof pets)[number] }
+  | { type: 'add' }
+
 export function PetCardCarousel() {
   const [activeIndex, setActiveIndex] = useState(0)
   const navigate = useNavigate()
-  const activePet = pets[activeIndex]
+  const slides: PetSlide[] = [...pets.map((pet) => ({ type: 'pet' as const, pet })), { type: 'add' }]
+  const slideCount = slides.length
+  const activeSlide = slides[activeIndex]
+  const isAddCard = activeSlide.type === 'add'
+  const activePet = activeSlide.type === 'pet' ? activeSlide.pet : null
 
-  const handleNext = () => setActiveIndex((prev) => (prev + 1) % pets.length)
-  const handlePrev = () => setActiveIndex((prev) => (prev - 1 + pets.length) % pets.length)
-  const handleOpenPet = () => navigate(`/pet-id/${activePet.id}`)
+  const handleNext = () => setActiveIndex((prev) => (prev + 1) % slideCount)
+  const handlePrev = () => setActiveIndex((prev) => (prev - 1 + slideCount) % slideCount)
+  const handleOpenPet = () => {
+    if (!activePet) {
+      return
+    }
+
+    navigate(`/pet-id/${activePet.id}`)
+  }
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % pets.length)
+      setActiveIndex((prev) => (prev + 1) % slideCount)
     }, 7000)
 
     return () => window.clearInterval(intervalId)
-  }, [])
+  }, [slideCount])
 
   return (
     <div
-      className="relative h-full min-h-[162px] cursor-pointer rounded-[34px] bg-white px-5 py-4 shadow-[0_18px_60px_rgba(15,23,42,0.08)] transition hover:-translate-y-0.5"
-      onClick={handleOpenPet}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault()
-          handleOpenPet()
-        }
-      }}
+      className="relative h-full min-h-[162px] rounded-[34px] bg-white px-5 py-4 shadow-[0_18px_60px_rgba(15,23,42,0.08)] transition hover:-translate-y-0.5"
     >
       <button
         type="button"
@@ -55,30 +60,63 @@ export function PetCardCarousel() {
       </button>
 
       <div className="flex min-h-[130px] items-center">
-        <div className="flex w-full items-center justify-between gap-4 px-14 md:px-16">
-          <img
-            src={activePet.photo}
-            alt={activePet.name}
-            className="size-18 shrink-0 rounded-full object-cover shadow-[0_8px_24px_rgba(15,23,42,0.12)] md:size-20"
-          />
-          <div className="min-w-0 flex-1">
-            <div className="text-[1.65rem] font-semibold leading-none tracking-tight text-black md:text-[1.9rem]">{activePet.name}</div>
-            <div className="mt-1 text-sm text-slate-600 md:text-[15px]">{activePet.breed}</div>
-            <div className="mt-1 text-sm font-medium text-slate-500">{activePet.age}</div>
-          </div>
-          <div className="hidden shrink-0 self-center sm:flex sm:flex-col sm:items-center">
-            <div className="grid size-14 grid-cols-4 gap-1 rounded-xl bg-white p-1 shadow-[0_8px_24px_rgba(15,23,42,0.1)] ring-1 ring-slate-100 md:size-16">
-              {Array.from({ length: 16 }).map((_, index) => (
-                <div
-                  key={index}
-                  className={`rounded-[2px] ${[0, 1, 3, 4, 6, 9, 10, 12, 14, 15].includes(index) ? 'bg-black' : 'bg-white'}`}
-                />
-              ))}
-            </div>
-            <div className="mt-2 text-center text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
-              ID: {activePet.code}
-            </div>
-          </div>
+        <div
+          className="flex w-full cursor-pointer items-center justify-between gap-4 px-14 md:px-16"
+          onClick={handleOpenPet}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault()
+              handleOpenPet()
+            }
+          }}
+        >
+          {isAddCard ? (
+            <>
+              <div className="flex size-16 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#eef5ff,#dbeafe)] shadow-[0_8px_24px_rgba(15,23,42,0.08)] md:size-18">
+                <Plus className="size-7 text-ozon-blue md:size-8" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-[1.35rem] font-semibold leading-none tracking-tight text-black md:text-[1.7rem]">+ Добавить питомца</div>
+                <div className="mt-1 text-sm text-slate-600">Создайте новый Pet ID</div>
+              </div>
+              <div className="hidden shrink-0 self-center sm:flex sm:flex-col sm:items-center">
+                <div className="flex size-12 items-center justify-center rounded-xl bg-white shadow-[0_8px_24px_rgba(15,23,42,0.1)] ring-1 ring-slate-100 md:size-14">
+                  <Plus className="size-5 text-ozon-blue" />
+                </div>
+                <div className="mt-2 text-center text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-500">
+                  Pet ID
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <img
+                src={activePet?.photo}
+                alt={activePet?.name}
+                className="size-18 shrink-0 rounded-full object-cover shadow-[0_8px_24px_rgba(15,23,42,0.12)] md:size-20"
+              />
+              <div className="min-w-0 flex-1">
+                <div className="text-[1.65rem] font-semibold leading-none tracking-tight text-black md:text-[1.9rem]">{activePet?.name}</div>
+                <div className="mt-1 text-sm text-slate-600 md:text-[15px]">{activePet?.breed}</div>
+                <div className="mt-1 text-sm font-medium text-slate-500">{activePet?.age}</div>
+              </div>
+              <div className="hidden shrink-0 self-center sm:flex sm:flex-col sm:items-center">
+                <div className="grid size-14 grid-cols-4 gap-1 rounded-xl bg-white p-1 shadow-[0_8px_24px_rgba(15,23,42,0.1)] ring-1 ring-slate-100 md:size-16">
+                  {Array.from({ length: 16 }).map((_, index) => (
+                    <div
+                      key={index}
+                      className={`rounded-[2px] ${[0, 1, 3, 4, 6, 9, 10, 12, 14, 15].includes(index) ? 'bg-black' : 'bg-white'}`}
+                    />
+                  ))}
+                </div>
+                <div className="mt-2 text-center text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                  ID: {activePet?.code}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
 

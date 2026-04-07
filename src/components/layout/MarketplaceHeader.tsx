@@ -9,16 +9,16 @@ export function MarketplaceHeader() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/92 backdrop-blur-xl">
-      <div className="mx-auto max-w-[1180px] px-4 py-4 md:px-6">
-        <div className="flex flex-col gap-4">
+    <header className="border-b border-slate-200/80 bg-white/92 backdrop-blur-xl">
+      <div className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/92 backdrop-blur-xl">
+        <div className="mx-auto max-w-[1180px] px-4 py-4 md:px-6">
           <div className="flex flex-wrap items-center gap-3 lg:flex-nowrap">
             <div className="flex w-full items-center gap-3 overflow-x-auto lg:w-auto lg:overflow-visible">
               <NavLink to="/" className="shrink-0 text-[2.1rem] font-black uppercase tracking-tight text-ozon-blue">
                 OZON
               </NavLink>
 
-              <button className="shrink-0 inline-flex items-center gap-2 rounded-2xl bg-ozon-blue px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(0,91,255,0.22)]">
+              <button className="hidden shrink-0 items-center gap-2 rounded-2xl bg-ozon-blue px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(0,91,255,0.22)] lg:inline-flex">
                 <Grid2x2 className="size-4" />
                 Каталог
               </button>
@@ -83,7 +83,11 @@ export function MarketplaceHeader() {
               </NavLink>
             </div>
           </div>
+        </div>
+      </div>
 
+      <div className="mx-auto max-w-[1180px] px-4 py-4 md:px-6">
+        <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-3 text-sm text-slate-500 md:flex-row md:items-center md:justify-between">
             <nav className="flex flex-wrap items-center gap-x-4 gap-y-2">
               {['Ozon fresh', 'Ozon Банк', 'Билеты, отели', 'Для бизнеса', 'Одежда', 'Электроника', 'Дом и сад', 'Товары за 1₽', 'Сертификаты', 'Ozon Pet'].map((item, index) => (
