@@ -1,6 +1,6 @@
 import { Funnel, Heart } from 'lucide-react'
 import { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import {
   productItems,
   servicePackages,
@@ -14,11 +14,13 @@ import { PreferenceBadge } from './PreferenceBadge'
 export function MarketplaceHomeContent() {
   const [activeTab, setActiveTab] = useState<'products' | 'services'>('products')
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [activePetFilter, setActivePetFilter] = useState<'all' | 'Рокси' | 'Марса' | 'Персика'>('all')
   const [activeServiceCategory, setActiveServiceCategory] = useState<
     'all' | 'groomers' | 'sitters' | 'veterinarians' | 'walking' | 'boarding' | 'training'
   >('all')
   const [serviceOfferMode, setServiceOfferMode] = useState<'single' | 'package'>('single')
   const navigate = useNavigate()
+  const location = useLocation()
   const capabilityCards = [
     {
       title: 'По клику',
@@ -63,6 +65,16 @@ export function MarketplaceHomeContent() {
       ? services
       : services.filter((service) => service.category === activeServiceCategory)
   )
+  const petFilterButtons = [
+    { id: 'all', label: 'Все товары/услуги' },
+    { id: 'Рокси', label: 'Подходит для Рокси' },
+    { id: 'Марса', label: 'Подходит для Марса' },
+    { id: 'Персика', label: 'Подходит для Персика' },
+  ] as const
+  const visibleProductItems =
+    activePetFilter === 'all'
+      ? productItems
+      : productItems.filter((item) => item.badge?.includes(activePetFilter))
 
   return (
     <div className="space-y-6">
@@ -165,35 +177,32 @@ export function MarketplaceHomeContent() {
             <div className="space-y-4">
               <div className={`${mobileFiltersOpen ? 'flex' : 'hidden'} flex-wrap items-center gap-4 lg:flex`}>
                 <div className="flex flex-wrap gap-2">
-                  {['Все товары/услуги', 'Подходит для Рокси', 'Подходит для Марса', 'Подходит для Персика'].map(
-                    (label, index) => (
+                  {petFilterButtons.map(({ id, label }) => (
                     <button
-                      key={label}
+                      key={id}
                       type="button"
+                      onClick={() => setActivePetFilter(id)}
                       className={`rounded-2xl px-4 py-3 text-sm font-medium shadow-[0_8px_24px_rgba(15,23,42,0.05)] ${
-                        index === 0
-                          ? 'bg-ozon-blue text-white'
-                          : 'bg-white text-slate-700'
+                        activePetFilter === id ? 'bg-ozon-blue text-white' : 'bg-white text-slate-700'
                       }`}
                     >
                       {label}
                     </button>
-                    ),
-                  )}
+                  ))}
                 </div>
               </div>
 
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                {productItems.map((item) => (
+                {visibleProductItems.map((item) => (
                   <article
                     key={item.id}
                     role="button"
                     tabIndex={0}
-                    onClick={() => navigate(`/product/${item.id}`)}
+                    onClick={() => navigate(`/product/${item.id}`, { state: { from: location.pathname } })}
                     onKeyDown={(event) => {
                       if (event.key === 'Enter' || event.key === ' ') {
                         event.preventDefault()
-                        navigate(`/product/${item.id}`)
+                        navigate(`/product/${item.id}`, { state: { from: location.pathname } })
                       }
                     }}
                     className="flex h-full cursor-pointer flex-col rounded-[24px] bg-white p-4 shadow-[0_12px_38px_rgba(15,23,42,0.06)]"
@@ -301,11 +310,11 @@ export function MarketplaceHomeContent() {
                 key={item.id}
                 role="button"
                 tabIndex={0}
-                onClick={() => navigate(`/service/${item.id}`)}
+                onClick={() => navigate(`/service/${item.id}`, { state: { from: location.pathname } })}
                 onKeyDown={(event) => {
                   if (event.key === 'Enter' || event.key === ' ') {
                     event.preventDefault()
-                    navigate(`/service/${item.id}`)
+                    navigate(`/service/${item.id}`, { state: { from: location.pathname } })
                   }
                 }}
                 className="flex h-full cursor-pointer flex-col rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]"
@@ -319,7 +328,7 @@ export function MarketplaceHomeContent() {
                     type="button"
                     onClick={(event) => {
                       event.stopPropagation()
-                      navigate(`/service/${item.id}`)
+                      navigate(`/service/${item.id}`, { state: { from: location.pathname } })
                     }}
                     className="shrink-0 rounded-full bg-ozon-blue px-3 py-1.5 text-xs font-semibold text-white"
                   >

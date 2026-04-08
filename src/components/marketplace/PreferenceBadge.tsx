@@ -57,7 +57,10 @@ export function PreferenceBadge({ icon, label, tone }: PreferenceBadgeProps) {
       <div className="relative">
         <button
           type="button"
-          onClick={() => setIsOpen((value) => !value)}
+          onClick={(event) => {
+            event.stopPropagation()
+            setIsOpen((value) => !value)
+          }}
           className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm transition ${toneClass[tone]}`}
           aria-label={message}
           aria-pressed={isOpen}

@@ -1,12 +1,13 @@
 import { BellRing, BrainCircuit, Check, Clock3, Funnel, PackageCheck, Repeat } from 'lucide-react'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { PreferenceBadge } from '../components/marketplace/PreferenceBadge'
 import { featuredProducts, pets, productItems, sidebarCategories } from '../data/marketplace'
 
 export function CatalogPage() {
   const activePet = pets[0]
   const navigate = useNavigate()
+  const location = useLocation()
   const [selectedReminder, setSelectedReminder] = useState('28 дней')
   const [selectedProductId, setSelectedProductId] = useState('food-4')
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
@@ -170,11 +171,11 @@ export function CatalogPage() {
               key={item.id}
               role="button"
               tabIndex={0}
-              onClick={() => navigate(`/product/${item.id}`)}
+              onClick={() => navigate(`/product/${item.id}`, { state: { from: location.pathname } })}
               onKeyDown={(event) => {
                 if (event.key === 'Enter' || event.key === ' ') {
                   event.preventDefault()
-                  navigate(`/product/${item.id}`)
+                  navigate(`/product/${item.id}`, { state: { from: location.pathname } })
                 }
               }}
               className="flex h-full cursor-pointer flex-col rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]"

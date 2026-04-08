@@ -1,6 +1,6 @@
 import { ArrowLeft, Heart, MessageSquareText, Star } from 'lucide-react'
 import { useState } from 'react'
-import { Navigate, NavLink, useParams } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { pets, productItems, featuredProducts } from '../data/marketplace'
 
 const productPhotos: Record<string, string> = {
@@ -141,6 +141,8 @@ function getSizeOptions(itemId: string, fallbackPrice: string) {
 
 export function ProductDetailPage() {
   const { itemId } = useParams()
+  const navigate = useNavigate()
+  const location = useLocation()
   const item = [...productItems, ...featuredProducts].find((entry) => entry.id === itemId)
   const preferredPetFromBadge = pets.find((pet) => item?.badge?.includes(pet.name))
   const [selectedPetId, setSelectedPetId] = useState(preferredPetFromBadge?.id ?? pets[0].id)
@@ -155,19 +157,27 @@ export function ProductDetailPage() {
   const photo = productPhotos[item.id] ?? productPhotos['food-1']
   const reviews = buildReviews(item.title)
   const activeSize = sizeOptions.find((option) => option.label === selectedSize) ?? sizeOptions[0]
+  const from = (location.state as { from?: string } | null)?.from
 
   return (
     <div className="space-y-6">
       <section>
         <div className="grid gap-6 xl:grid-cols-[0.92fr_1.08fr]">
           <div className="relative overflow-hidden rounded-[28px] bg-slate-100">
-            <NavLink
-              to="/catalog"
+            <button
+              type="button"
+              onClick={() => {
+                if (from) {
+                  navigate(-1)
+                  return
+                }
+                navigate('/catalog')
+              }}
               className="absolute left-4 top-4 z-10 inline-flex items-center justify-center rounded-full bg-white/95 p-3 text-slate-700 shadow-[0_12px_24px_rgba(15,23,42,0.12)] backdrop-blur"
               aria-label="Назад к товарам"
             >
               <ArrowLeft className="size-5" />
-            </NavLink>
+            </button>
             <img src={photo} alt={item.title} className="h-full min-h-[360px] w-full object-cover" />
           </div>
 

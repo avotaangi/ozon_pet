@@ -1,6 +1,6 @@
 import { ArrowLeft, CalendarDays, Clock3, Star } from 'lucide-react'
 import { useState } from 'react'
-import { Navigate, NavLink, useParams } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { pets, services } from '../data/marketplace'
 
 type Specialist = {
@@ -143,6 +143,8 @@ const defaultTimes = ['09:00', '12:30', '18:00']
 
 export function ServiceDetailPage() {
   const { itemId } = useParams()
+  const navigate = useNavigate()
+  const location = useLocation()
   const item = services.find((entry) => entry.id === itemId)
   const [selectedDate, setSelectedDate] = useState(defaultDates[0])
   const [selectedTime, setSelectedTime] = useState(defaultTimes[0])
@@ -156,19 +158,27 @@ export function ServiceDetailPage() {
   const specialists = categorySpecialists[item.category]
   const photo = servicePhotos[item.id] ?? servicePhotos['srv-1']
   const leadSpecialist = specialists[0]
+  const from = (location.state as { from?: string } | null)?.from
 
   return (
     <div className="space-y-6">
       <section className="rounded-[32px] bg-white p-7 shadow-[0_16px_60px_rgba(15,23,42,0.06)]">
         <div className="grid gap-6 xl:grid-cols-[0.92fr_1.08fr]">
           <div className="relative overflow-hidden rounded-[28px] bg-slate-100">
-            <NavLink
-              to="/services"
+            <button
+              type="button"
+              onClick={() => {
+                if (from) {
+                  navigate(-1)
+                  return
+                }
+                navigate('/services')
+              }}
               className="absolute left-4 top-4 z-10 inline-flex items-center justify-center rounded-full bg-white/95 p-3 text-slate-700 shadow-[0_12px_24px_rgba(15,23,42,0.12)] backdrop-blur"
               aria-label="Назад к услугам"
             >
               <ArrowLeft className="size-5" />
-            </NavLink>
+            </button>
             <img src={photo} alt={item.title} className="h-full min-h-[360px] w-full object-cover" />
           </div>
 

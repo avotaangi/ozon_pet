@@ -1,8 +1,9 @@
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { pets, services } from '../data/marketplace'
 
 export function ServicesPage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const activeBookings = [
     { ...services.find((item) => item.id === 'srv-2')!, petName: 'Рокси', slot: '10 апреля, 14:30' },
     { ...services.find((item) => item.id === 'srv-3')!, petName: 'Марса', slot: '9 апреля, 08:00' },
@@ -39,11 +40,11 @@ export function ServicesPage() {
               key={`${item.id}-${item.petName}`}
               role="button"
               tabIndex={0}
-              onClick={() => navigate(`/service/${item.id}`)}
+              onClick={() => navigate(`/service/${item.id}`, { state: { from: location.pathname } })}
               onKeyDown={(event) => {
                 if (event.key === 'Enter' || event.key === ' ') {
                   event.preventDefault()
-                  navigate(`/service/${item.id}`)
+                  navigate(`/service/${item.id}`, { state: { from: location.pathname } })
                 }
               }}
               className="flex h-full cursor-pointer flex-col rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]"
@@ -85,11 +86,11 @@ export function ServicesPage() {
                 key={`${item.id}-${item.petName}-past`}
                 role="button"
                 tabIndex={0}
-                onClick={() => navigate(`/service/${item.id}`)}
+                onClick={() => navigate(`/service/${item.id}`, { state: { from: location.pathname } })}
                 onKeyDown={(event) => {
                   if (event.key === 'Enter' || event.key === ' ') {
                     event.preventDefault()
-                    navigate(`/service/${item.id}`)
+                    navigate(`/service/${item.id}`, { state: { from: location.pathname } })
                   }
                 }}
                 className="flex h-full cursor-pointer flex-col rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]"
