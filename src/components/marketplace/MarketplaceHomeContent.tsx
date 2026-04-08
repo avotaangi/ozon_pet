@@ -75,6 +75,9 @@ export function MarketplaceHomeContent() {
     activePetFilter === 'all'
       ? productItems
       : productItems.filter((item) => item.badge?.includes(activePetFilter))
+  const limitedProductItems = visibleProductItems.slice(0, 8)
+  const limitedServices = visibleServices.slice(0, 6)
+  const limitedServicePackages = servicePackages.slice(0, 4)
 
   return (
     <div className="space-y-6">
@@ -193,7 +196,7 @@ export function MarketplaceHomeContent() {
               </div>
 
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                {visibleProductItems.map((item) => (
+                {limitedProductItems.map((item) => (
                   <article
                     key={item.id}
                     role="button"
@@ -305,7 +308,7 @@ export function MarketplaceHomeContent() {
 
           {serviceOfferMode === 'single' ? (
           <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-            {visibleServices.map((item) => (
+            {limitedServices.map((item) => (
               <article
                 key={item.id}
                 role="button"
@@ -345,7 +348,7 @@ export function MarketplaceHomeContent() {
           </div>
           ) : (
             <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-              {servicePackages.map((item) => (
+              {limitedServicePackages.map((item) => (
                 <article key={item.id} className="flex h-full flex-col rounded-[28px] bg-white p-5 shadow-[0_12px_38px_rgba(15,23,42,0.06)]">
                   <div className="flex h-38 items-center justify-center rounded-[20px] bg-[#d9d9d9] text-xl text-slate-500">Пакет</div>
                   <div className="mt-4 text-xl font-semibold text-slate-900">{item.title}</div>
